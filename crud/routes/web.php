@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 
 // Get Route example
 Route::get('/', function (): View
@@ -32,3 +34,25 @@ Route::prefix('portfolio')->group(function () {
         return view('organization');
     });
 });
+
+
+// Post route example
+
+Route::get('/formsubmitted', function (): View {
+    return view('home');
+});
+
+Route::post('/formsubmitted', function (Request $request) {
+
+    $request->validate([
+        'fullname' => 'required|min:4|max:20',
+        'email' => 'required|email'
+    ]);
+
+    $fullname = $request->input('fullname');
+    $email = $request->input('email');
+
+    return "Your full name is $fullname, and your email is $email";
+
+})->name('formsubmitted');
+
